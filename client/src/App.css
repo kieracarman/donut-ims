@@ -1,0 +1,12 @@
+input[type="text"] {
+  font-size: 1.5rem;
+}
+
+input[type="number"] {
+  font-size: 1.5rem;
+}
+
+.table td {
+  font-size: 2rem;
+  vertical-align: middle;
+}
