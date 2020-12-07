@@ -192,7 +192,12 @@ export default class UpdateList extends Component {
         return(
           <tr key={inventory._id}>
             <td>{inventory.name}</td>
+            <td className="text-center">{inventory.unit}</td>
             <td className="text-center">{inventory.quantity}</td>
+            <td className="text-center">{inventory.zone}</td>
+            <td className="text-center">{inventory.minimumQuantity}</td>
+            <td className="text-center">{inventory.defaultOrder}</td>
+            <td className="text-center">{inventory.vendor}</td>
             <td>
               <button type="button" id='btnDelete' className="btn-block btn-danger btn" onClick={ e =>
                 window.confirm("Are you sure you want to delete this item?") &&
@@ -271,9 +276,14 @@ export default class UpdateList extends Component {
         <table className="table table-striped table-bordered table-hover" style={{marginTop:20}}>
           <thead>
             <tr>
-              <th style={{width: '86%'}}>Item Name</th>
+              <th style={{width: '32%'}}>Item Name</th>
               <th style={{width: '7%'}}>Quantity</th>
-              <th style={{width: '7%'}}></th>
+              <th style={{width: '10%'}}>Unit</th>
+              <th style={{width: '12%'}}>Zone</th>
+              <th style={{width: '7%'}}>MinQty</th>
+              <th style={{width: '7%'}}>Default</th>
+              <th style={{width: '20%'}}>Vendor</th>
+              <th style={{width: '5%'}}></th>
             </tr>
           </thead>
           <tbody>

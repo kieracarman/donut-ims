@@ -37,65 +37,83 @@ router.get('/:invId', async (req, res, next) => {
 });
 
 // Handle incoming PATCH requests to modify inventory
-router.patch('/:invId', (req, res, next) => {
-  if (req.body.quantity < 0) {
-    res.status(400).json({ error: 'Cannot have negative inventory' });
+router.patch('/:invId', async (req, res, next) => {
+  try {
+    if (req.body.quantity < 0) {
+      res.status(400).json({ error: 'Cannot have negative inventory' });
+    }
+    const id = req.params.invId;
+    await Inventory.updateOne({ _id: id }, { $set: { quantity: req.body.quantity } })
+      .exec()
+      .then((item) => {
+        res.status(200).json({
+          message: 'Item quantity updated.',
+          id: item._id,
+        });
+      })
+      .catch((err) => {
+        res.status(500).json({
+          error: err,
+        });
+      });
+  } catch (error) {
+    res.status(500).json('Error updating inventory');
+    next(error);
   }
-  const id = req.params.invId;
-  Inventory.updateOne({ _id: id }, { $set: { quantity: req.body.quantity } })
-    .exec()
-    .then((result) => {
-      res.status(200).json({
-        message: 'Inventory updated',
-      });
-    })
-    .catch((err) => {
-      console.log(err);
-      res.status(500).json({
-        error: err,
-      });
-    });
 });
 
 // Handle incoming POST requests to create items
-router.post('/', (req, res, next) => {
-  const inventory = new Inventory({
-    description: req.body.description,
-    quantity: req.body.quantity,
-  });
-  inventory.save()
-    .then((inventory) => {
-      res.status(201).json({
-        message: 'Item added to inventory.',
-        id: inventory._id,
-      });
-    })
-    .catch((err) => {
-      res.status(500).json({ error: err });
+router.post('/', async (req, res, next) => {
+  try {
+    const newItem = new Inventory({
+      name: req.body.name,
+      unit: req.body.unit,
+      quantity: req.body.quantity,
+      zone: req.body.zone,
+      minimumQuantity: req.body.minimumQuantity,
+      defaultOrder: req.body.defaultOrder,
+      vendor: req.body.vendor,
     });
-  console.log(err);
+    await newItem.save()
+      .then((item) => {
+        res.status(201).json({
+          message: 'Item added to inventory.',
+          id: item._id,
+        });
+      })
+      .catch((err) => {
+        res.status(500).json({ error: err });
+      });
+  } catch (error) {
+    res.status(500).json('Error POSTing to inventory');
+    next(error);
+  }
 });
 
 // Handle incoming DELETE requests to remove items
-router.delete('/:invId', (req, res, next) => {
-  Inventory.findByIdAndDelete(req.params.invId)
-    .exec()
-    .then((inventory) => {
-      if (!inventory) {
-        return res.status(400).json({
-          message: 'Item does not exist',
+router.delete('/:invId', async (req, res, next) => {
+  try {
+    await Inventory.findByIdAndDelete(req.params.invId)
+      .exec()
+      .then((item) => {
+        if (!item) {
+          res.status(400).json({
+            message: 'Item does not exist',
+          });
+        }
+        res.status(200).json({
+          message: 'Item deleted',
         });
-      }
-
-      res.status(200).json({
-        message: 'Item deleted',
+      })
+      .catch((err) => {
+        res.status(500).json({
+          error: err,
+        });
       });
-    })
-    .catch((err) => {
-      res.status(500).json({
-        error: err,
-      });
-    });
+  } catch (error) {
+    res.status(500).json('Error deleting item');
+    next(error);
+  }
 });
 
 module.exports = router;

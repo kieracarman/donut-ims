@@ -62,10 +62,6 @@ export default class UpdateList extends Component {
         this.onChangeQuantity(newQuantity, index)
         console.log(res.data.message)
       });
-
-    this.setState({
-      amount: '',
-    })
   }
 
   // Function call for previous page button
@@ -95,7 +91,7 @@ export default class UpdateList extends Component {
             <td>{inventory.name}</td>
             <td className="text-center">{inventory.quantity}</td>
             <td>
-              <input type='number' className="form-control" value={this.state.amount} onChange={this.onChangeAmount} />
+              <input type='number' className="form-control" onChange={this.onChangeAmount} />
             </td>
             <td>
               <div className="btn-toolbar">
