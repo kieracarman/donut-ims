@@ -136,7 +136,6 @@ export default class UpdateList extends Component {
       minimumQuantity: this.state.newItemMinimumQuantity,
       defaultOrder: this.state.newItemDefaultOrder,
       vendor: this.state.newItemVendor,
-      needReorder: false
     }
 
     await axios.post('/inv/', newItem)
@@ -195,7 +194,7 @@ export default class UpdateList extends Component {
             <td>{inventory.name}</td>
             <td className="text-center">{inventory.quantity}</td>
             <td>
-              <button type="button" id='btnDelete' className="btn-block btn-danger btn-sm" onClick={ e =>
+              <button type="button" id='btnDelete' className="btn-block btn-danger btn" onClick={ e =>
                 window.confirm("Are you sure you want to delete this item?") &&
                 this.removeItem(inventory._id, index)}>Remove</button>
             </td>
@@ -261,7 +260,7 @@ export default class UpdateList extends Component {
                   <input type="text" className="form-control" value={this.state.newItemVendor} onChange={this.onChangeVendor}/>
                 </td>
                 <td>
-                  <input type="submit" value="Add" className="btn-lg btn-block btn-success"/>
+                  <input type="submit" value="Add" className="btn btn-block btn-success"/>
                 </td>
               </tr>
             </tbody>

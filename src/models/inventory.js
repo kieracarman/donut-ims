@@ -8,7 +8,6 @@ const inventorySchema = mongoose.Schema({
   zone: { type: String, required: true },
   minimumQuantity: { type: Number, required: true },
   defaultOrder: { type: Number, required: true },
-  needReorder: { type: Boolean, required: true },
   vendor: { type: String, required: true },
 });
 

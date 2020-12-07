@@ -99,7 +99,7 @@ export default class UpdateList extends Component {
             </td>
             <td>
               <div className="btn-toolbar">
-                <button type="button" id='btnUpdate' className="btn-block btn-primary btn-lg" onClick={() => this.updateQuantity(inventory._id, this.state.amount, index)}>Update</button>
+                <button type="button" id='btnUpdate' className="btn-block btn-primary btn" onClick={() => this.updateQuantity(inventory._id, this.state.amount, index)}>Update</button>
               </div>
             </td>
           </tr>
