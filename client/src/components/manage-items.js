@@ -195,7 +195,7 @@ export default class UpdateList extends Component {
             <td>{inventory.name}</td>
             <td className="text-center">{inventory.quantity}</td>
             <td>
-              <button type="button" id='btnDelete' className="btn-block btn-danger btn-lg" onClick={ e =>
+              <button type="button" id='btnDelete' className="btn-block btn-danger btn-sm" onClick={ e =>
                 window.confirm("Are you sure you want to delete this item?") &&
                 this.removeItem(inventory._id, index)}>Remove</button>
             </td>

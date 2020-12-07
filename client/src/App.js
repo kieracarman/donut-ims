@@ -3,8 +3,7 @@ import {BrowserRouter as Router, Route, Link} from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.css";
 import "./App.css";
 
-import List from "./components/inventory-list"
-import Update from "./components/modify-list"
+import List from "./components/modify-list"
 import Manage from "./components/manage-items"
 
 // Import logo
@@ -22,16 +21,12 @@ function App() {
               <Link to="/" className="nav-link">Inventory</Link>
             </li>
             <li className="navbar-item">
-              <Link to="/update" className="nav-link">Update</Link>
-            </li>
-            <li className="navbar-item">
               <Link to="/manage" className="nav-link">Manage Items</Link>
             </li>
          </ul>
         </div>
       </nav>
       <Route path="/" exact component={List} />
-      <Route path="/update/" component={Update} />
       <Route path="/manage/" component={Manage} />
     </Router>
   );
