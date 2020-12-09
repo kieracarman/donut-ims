@@ -81,7 +81,7 @@ export default class UpdateList extends Component {
   }
 
   // Mapping out GET data and creating input/buttons
-  inventoryList() {
+  listItems() {
     // Slicing data for pagination table
     return this.state.inventory.slice(
       (this.state.paginationCount * (this.state.currentPage - 1)),
@@ -90,6 +90,7 @@ export default class UpdateList extends Component {
           <tr key={inventory._id}>
             <td>{inventory.name}</td>
             <td className="text-center">{inventory.quantity}</td>
+            <td className="text-center">{inventory.unit}</td>
             <td>
               <input type='number' className="form-control" onChange={this.onChangeAmount} />
             </td>
@@ -99,6 +100,18 @@ export default class UpdateList extends Component {
               </div>
             </td>
           </tr>
+        );
+      })
+  }
+
+  // Mapping out GET data to make a separate table for each zone
+  listZones() {
+    // Slicing data for pagination table
+    return this.state.inventory.slice(
+      (this.state.paginationCount * (this.state.currentPage - 1)),
+      (this.state.paginationCount * (this.state.currentPage))).map((inventory, index) => {
+        return(
+          <h4>{inventory.zone}</h4>
         );
       })
   }
@@ -127,14 +140,15 @@ export default class UpdateList extends Component {
         <table className="table table-striped table-bordered table-hover" style={{marginTop:20}}>
           <thead>
             <tr>
-              <th style={{width: '79%'}}>Item</th>
+              <th style={{width: '74%'}}>Item</th>
               <th style={{width: '7%'}}>Quantity</th>
+              <th style={{width: '5%'}}>Unit</th>
               <th style={{width: '7%'}}>Update</th>
               <th style={{width: '7%'}}></th>
             </tr>
           </thead>
           <tbody>
-            {this.inventoryList()}
+            {this.listItems()}
           </tbody>
         </table>
         {previousEligible && <button className="btn btn-info" onClick={this.previousPage}>Previous Page</button>}
