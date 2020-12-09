@@ -3,8 +3,9 @@ import {BrowserRouter as Router, Route, Link} from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.css";
 import "./App.css";
 
-import List from "./components/modify-list"
-import Manage from "./components/manage-items"
+import Update from "./components/update"
+import Manage from "./components/manage"
+import Order from "./components/order"
 
 // Import logo
 import logo from "./Logo.png"
@@ -23,11 +24,15 @@ function App() {
             <li className="navbar-item">
               <Link to="/manage" className="nav-link">Manage Items</Link>
             </li>
+            <li className="navbar-item">
+              <Link to="/order" className="nav-link">Order Restock</Link>
+            </li>
          </ul>
         </div>
       </nav>
-      <Route path="/" exact component={List} />
+      <Route path="/" exact component={Update} />
       <Route path="/manage/" component={Manage} />
+      <Route path="/order/" component={Order} />
     </Router>
   );
 }
