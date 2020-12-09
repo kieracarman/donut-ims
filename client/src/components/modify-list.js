@@ -11,8 +11,6 @@ export default class UpdateList extends Component {
     this.state = {
       inventory: [],
       amount: '',
-      currentPage: 1,
-      paginationCount: 40,
       errors: {}
     }
   }
@@ -64,95 +62,61 @@ export default class UpdateList extends Component {
       });
   }
 
-  // Function call for previous page button
-  previousPage = () => {
-    if (this.state.currentPage !== 1) {
-      this.setState({
-        currentPage: this.state.currentPage - 1
-      })
-    }
-  }
-
-  // Function call for next page button
-  nextPage = () => {
-    if (this.state.currentPage + 1 <= Math.ceil(this.state.inventory.length/this.state.paginationCount)) {
-      this.setState((prevState) => ({currentPage: (prevState.currentPage + 1)}))
-    }
-  }
-
-  // Mapping out GET data and creating input/buttons
-  listItems() {
-    // Slicing data for pagination table
-    return this.state.inventory.slice(
-      (this.state.paginationCount * (this.state.currentPage - 1)),
-      (this.state.paginationCount * (this.state.currentPage))).map((inventory, index) => {
-        return(
-          <tr key={inventory._id}>
-            <td>{inventory.name}</td>
-            <td className="text-center">{inventory.quantity}</td>
-            <td className="text-center">{inventory.unit}</td>
-            <td>
-              <input type='number' className="form-control" onChange={this.onChangeAmount} />
-            </td>
-            <td>
-              <div className="btn-toolbar">
-                <button type="button" id='btnUpdate' className="btn-block btn-primary btn" onClick={() => this.updateQuantity(inventory._id, this.state.amount, index)}>Update</button>
-              </div>
-            </td>
-          </tr>
-        );
-      })
+  // Mapping out items from GET data and creating input/buttons
+  listItems(zone) {
+    const filteredByZone = this.state.inventory.filter(obj => obj.zone === zone);
+    return filteredByZone.map((inventory, index) => {
+      return(
+        <tr key={inventory._id}>
+          <td>{inventory.name}</td>
+          <td className="text-center">{inventory.quantity}</td>
+          <td className="text-center">{inventory.unit}</td>
+          <td>
+            <input type='number' className="form-control" onChange={this.onChangeAmount} />
+          </td>
+          <td>
+            <div className="btn-toolbar">
+              <button type="button" id='btnUpdate' className="btn-block btn-primary btn" onClick={() => this.updateQuantity(inventory._id, this.state.amount, index)}>Update</button>
+            </div>
+          </td>
+        </tr>
+      );
+    })
   }
 
   // Mapping out GET data to make a separate table for each zone
   listZones() {
-    // Slicing data for pagination table
-    return this.state.inventory.slice(
-      (this.state.paginationCount * (this.state.currentPage - 1)),
-      (this.state.paginationCount * (this.state.currentPage))).map((inventory, index) => {
-        return(
-          <h4>{inventory.zone}</h4>
-        );
-      })
+    const zones = [...new Set(this.state.inventory.map(z => z.zone))];
+    return zones.map((z, index) => {
+      return(
+        <div key={index}>
+          <h3>{z}</h3>
+          <table className="table table-striped table-bordered table-hover" style={{marginTop:20}}>
+            <thead>
+              <tr>
+                <th style={{width: '72%'}}>Item</th>
+                <th style={{width: '7%'}}>Quantity</th>
+                <th style={{width: '7%'}}>Unit</th>
+                <th style={{width: '7%'}}>Update</th>
+                <th style={{width: '7%'}}></th>
+              </tr>
+            </thead>
+            <tbody>
+              {this.listItems(z)}
+            </tbody>
+          </table>
+          <br />
+        </div>
+      );
+    })
   }
 
   render() {
-    // Conditional setup for rendering previous/next page buttons
-    let previousEligible = false
-    if (this.state.currentPage <= 1) {
-      previousEligible = false
-    }
-    else {
-      previousEligible = true
-    }
-
-    let nextEligible = true
-    if (this.state.currentPage + 1 > Math.ceil(this.state.inventory.length/this.state.paginationCount)) {
-      nextEligible = false
-    }
-    else {
-      nextEligible = true
-    }
-
     return (
       <div className="container">
-        <h3>Update Inventory</h3>
-        <table className="table table-striped table-bordered table-hover" style={{marginTop:20}}>
-          <thead>
-            <tr>
-              <th style={{width: '74%'}}>Item</th>
-              <th style={{width: '7%'}}>Quantity</th>
-              <th style={{width: '5%'}}>Unit</th>
-              <th style={{width: '7%'}}>Update</th>
-              <th style={{width: '7%'}}></th>
-            </tr>
-          </thead>
-          <tbody>
-            {this.listItems()}
-          </tbody>
-        </table>
-        {previousEligible && <button className="btn btn-info" onClick={this.previousPage}>Previous Page</button>}
-        {nextEligible && <button className="btn btn-info" onClick={this.nextPage} style={{float: 'right'}}>Next Page</button>}
+        <h2>Update Inventory</h2>
+        <br />
+        {this.listZones()}
       </div>
     )
   }
