@@ -31,7 +31,7 @@ router.get('/:invId', async (req, res, next) => {
         res.status(500).json({ error: err });
       });
   } catch (error) {
-    res.status(500).json({ error: 'Error pulling inventory' });
+    res.status(500).json({ error: 'Error pulling item' });
     next(error);
   }
 });
