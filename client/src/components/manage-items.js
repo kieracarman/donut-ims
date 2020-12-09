@@ -232,14 +232,16 @@ export default class UpdateList extends Component {
         <form onSubmit={this.onSubmit}>
           <table className="table table-borderless">
             <thead>
-              <th style={{width: '32%'}}>Item</th>
-              <th style={{width: '10%'}}>Unit</th>
-              <th style={{width: '7%'}}>Quantity</th>
-              <th style={{width: '12%'}}>Zone</th>
-              <th style={{width: '7%'}}>MinQty</th>
-              <th style={{width: '7%'}}>Default</th>
-              <th style={{width: '20%'}}>Vendor</th>
-              <th style={{width: '5%'}}></th>
+              <tr>
+                <th style={{width: '32%'}}>Item</th>
+                <th style={{width: '10%'}}>Unit</th>
+                <th style={{width: '7%'}}>Quantity</th>
+                <th style={{width: '12%'}}>Zone</th>
+                <th style={{width: '7%'}}>MinQty</th>
+                <th style={{width: '7%'}}>Default</th>
+                <th style={{width: '20%'}}>Vendor</th>
+                <th style={{width: '5%'}}></th>
+              </tr>
             </thead>
             <tbody>
               <tr>
