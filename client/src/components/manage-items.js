@@ -24,8 +24,6 @@ export default class UpdateList extends Component {
       newItemMinimumQuantity: '',
       newItemDefaultOrder: '',
       newItemVendor: '',
-      currentPage: 1,
-      paginationCount: 40,
     }
   }
 
@@ -167,41 +165,22 @@ export default class UpdateList extends Component {
       });
   }
 
-  // Function call for previous page button
-  previousPage = () => {
-    if (this.state.currentPage !== 1) {
-      this.setState({
-        currentPage: this.state.currentPage - 1
-      })
-    }
-  }
-
-  // Function call for next page button
-  nextPage = () => {
-    if (this.state.currentPage + 1 <= Math.ceil(this.state.inventory.length/this.state.paginationCount)) {
-      this.setState((prevState) => ({currentPage: (prevState.currentPage + 1)}))
-    }
-  }
-
   // Mapping out GET data
-  inventoryList() {
-    // Slicing data for table pagination
-    return this.state.inventory.slice(
-      (this.state.paginationCount * (this.state.currentPage - 1)),
-      (this.state.paginationCount * (this.state.currentPage))).map((inventory, index) => {
+  listItems() {
+    return this.state.inventory.map((item, index) => {
         return(
-          <tr key={inventory._id}>
-            <td>{inventory.name}</td>
-            <td className="text-center">{inventory.unit}</td>
-            <td className="text-center">{inventory.quantity}</td>
-            <td className="text-center">{inventory.zone}</td>
-            <td className="text-center">{inventory.minimumQuantity}</td>
-            <td className="text-center">{inventory.defaultOrder}</td>
-            <td className="text-center">{inventory.vendor}</td>
+          <tr key={item._id}>
+            <td>{item.name}</td>
+            <td className="text-center">{item.unit}</td>
+            <td className="text-center">{item.quantity}</td>
+            <td className="text-center">{item.zone}</td>
+            <td className="text-center">{item.minimumQuantity}</td>
+            <td className="text-center">{item.defaultOrder}</td>
+            <td className="text-center">{item.vendor}</td>
             <td>
               <button type="button" id='btnDelete' className="btn-block btn-danger btn" onClick={ e =>
                 window.confirm("Are you sure you want to delete this item?") &&
-                this.removeItem(inventory._id, index)}>Remove</button>
+                this.removeItem(item._id, index)}>Remove</button>
             </td>
           </tr>
         );
@@ -209,23 +188,6 @@ export default class UpdateList extends Component {
   }
 
   render() {
-    // Conditional setup for rendering previous/next page button
-    let previousEligible = false
-    if (this.state.currentPage <= 1) {
-      previousEligible = false
-    }
-    else {
-      previousEligible = true
-    }
-
-    let nextEligible = true
-    if (this.state.currentPage + 1 > Math.ceil(this.state.inventory.length/this.state.paginationCount)) {
-      nextEligible = false
-    }
-    else {
-      nextEligible = true
-    }
-
     return (
       <div className="container">
         <h3>New Item</h3>
@@ -289,12 +251,9 @@ export default class UpdateList extends Component {
             </tr>
           </thead>
           <tbody>
-            {this.inventoryList()}
+            {this.listItems()}
           </tbody>
         </table> 
-        {previousEligible && <button className="btn btn-info" onClick={this.previousPage}>Previous Page</button>}
-        {nextEligible && <button className="btn btn-info" onClick={this.nextPage} style={{float: 'right'}}>Next Page</button>}
-        
         <footer style={{marginTop:"70px"}}>
         </footer>
       </div>
