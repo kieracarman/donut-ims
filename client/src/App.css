@@ -1,13 +1,26 @@
-/*
 input[type="text"] {
   font-size: 1.5rem;
+  padding: 0.25rem;
+  height: auto;
+  line-height: 1;
 }
 
 input[type="number"] {
   font-size: 1.5rem;
+  padding: 0.25rem;
+  height: auto;
+  line-height: 1;
+  text-align: center;
+  -moz-appearance: textfield;
 }
-*/
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
 .table td {
-  /*font-size: 2rem;*/
+  font-size: 1.5rem;
   vertical-align: middle;
 }

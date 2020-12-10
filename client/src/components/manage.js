@@ -240,10 +240,10 @@ export default class UpdateList extends Component {
         <table className="table table-striped table-bordered table-hover" style={{marginTop:20}}>
           <thead>
             <tr>
-              <th style={{width: '32%'}}>Item Name</th>
+              <th style={{width: '29%'}}>Item Name</th>
               <th style={{width: '7%'}}>Quantity</th>
               <th style={{width: '10%'}}>Unit</th>
-              <th style={{width: '12%'}}>Zone</th>
+              <th style={{width: '15%'}}>Zone</th>
               <th style={{width: '7%'}}>MinQty</th>
               <th style={{width: '7%'}}>Default</th>
               <th style={{width: '20%'}}>Vendor</th>
