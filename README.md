@@ -8,8 +8,6 @@ Frontend:
  - add form fields and update button to Edit Items list on Manage page 
  - drag and drop functionality in list on Manage page
 
-next steps:
-
-implement authentication/authorization with protected routes
-
-automatic ordering via text or email or apis
+Next steps:
+ - implement authentication/authorization with protected routes
+ - automatic ordering via text or email or apis
