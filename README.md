@@ -1,15 +1,14 @@
 TO-DO:
 
 Backend:
- - add new database fields to PATCH route
+ - add new PATCH route to api to handle editing entire record
 
 Frontend:
- - add form fields and update button to Edit Items list on Manage page
- - group inventory by zone on list page and update page
- - generate order list for each vendor
+ - fix bug where quantity does not update in on page in all tables after first one
+ - add form fields and update button to Edit Items list on Manage page 
  - drag and drop functionality in list on Manage page
 
-eventual:
+next steps:
 
 implement authentication/authorization with protected routes
 
