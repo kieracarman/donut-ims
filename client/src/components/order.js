@@ -40,7 +40,8 @@ export default class UpdateList extends Component {
   // Mapping out GET data to make a separate table for each zone
   listVendors() {
     const vendors = [...new Set(this.state.inventory.map(v => v.vendor))];
-    return vendors.map((v, index) => {
+    const vendorsWithItemsToRestock = vendors.filter(obj => this.listItems(obj).length !== 0);
+    return vendorsWithItemsToRestock.map((v, index) => {
       return(
         <div key={index}>
           <h3>{v}</h3>
