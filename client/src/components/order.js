@@ -23,51 +23,42 @@ export default class UpdateList extends Component {
   }
 
   // Mapping out items from GET data and creating input/buttons
-  listItems(zone) {
-    const filteredByZone = this.state.inventory.filter(obj => obj.zone === zone);
-    return filteredByZone.map((inventory, index) => {
+  listItems(vendor) {
+    const itemsNeedingReorder = this.state.inventory.filter(obj => obj.quantity < obj.minimumQuantity);
+    const filteredByVendor = itemsNeedingReorder.filter(obj => obj.vendor === vendor);
+    return filteredByVendor.map((inventory, index) => {
       return(
         <tr key={inventory._id}>
           <td>{inventory.name}</td>
-          <td className="text-center">{inventory.quantity}</td>
+          <td className="text-center">{inventory.defaultOrder}</td>
           <td className="text-center">{inventory.unit}</td>
-          <td>
-            <input type='number' className="form-control" onChange={this.onChangeAmount} />
-          </td>
-          <td>
-            <div className="btn-toolbar">
-              <button type="button" id='btnUpdate' className="btn-block btn-primary btn" onClick={() => this.updateQuantity(inventory._id, this.state.amount, index)}>Update</button>
-            </div>
-          </td>
         </tr>
       );
     })
   }
 
   // Mapping out GET data to make a separate table for each zone
-  listZones() {
-    const zones = [...new Set(this.state.inventory.map(z => z.zone))];
-    return zones.map((z, index) => {
+  listVendors() {
+    const vendors = [...new Set(this.state.inventory.map(v => v.vendor))];
+    return vendors.map((v, index) => {
       return(
         <div key={index}>
-          <h3>{z}</h3>
+          <h3>{v}</h3>
           <table className="table table-striped table-bordered table-hover" style={{marginTop:20}}>
             <thead>
               <tr>
-                <th style={{width: '72%'}}>Item</th>
-                <th style={{width: '7%'}}>Quantity</th>
-                <th style={{width: '7%'}}>Unit</th>
-                <th style={{width: '7%'}}>Update</th>
-                <th style={{width: '7%'}}></th>
+                <th style={{width: '80%'}}>Item</th>
+                <th style={{width: '10%'}}>Order</th>
+                <th style={{width: '10%'}}>Unit</th>
               </tr>
             </thead>
             <tbody>
-              {this.listItems(z)}
+              {this.listItems(v)}
             </tbody>
           </table>
           <br />
         </div>
-      );
+        );
     })
   }
 
@@ -76,7 +67,7 @@ export default class UpdateList extends Component {
       <div className="container">
         <h2>Update Inventory</h2>
         <br />
-        {this.listZones()}
+        {this.listVendors()}
       </div>
     )
   }
