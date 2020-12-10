@@ -24,7 +24,7 @@ export default class UpdateList extends Component {
 
   // Mapping out items from GET data and creating input/buttons
   listItems(vendor) {
-    const itemsNeedingReorder = this.state.inventory.filter(obj => obj.quantity < obj.minimumQuantity);
+    const itemsNeedingReorder = this.state.inventory.filter(obj => obj.quantity <= obj.minimumQuantity);
     const filteredByVendor = itemsNeedingReorder.filter(obj => obj.vendor === vendor);
     return filteredByVendor.map((inventory, index) => {
       return(
