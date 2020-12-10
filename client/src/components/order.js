@@ -65,7 +65,7 @@ export default class UpdateList extends Component {
   render() {
     return (
       <div className="container">
-        <h2>Update Inventory</h2>
+        <h2>Order Restock</h2>
         <br />
         {this.listVendors()}
       </div>
