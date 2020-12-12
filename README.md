@@ -1,6 +1,6 @@
-#One Ring Donuts IMS
+# One Ring Donuts IMS
 
-##Technologies used:
+## Technologies used:
  - Node.js
  - Express.js
  - MongoDB
