@@ -65,19 +65,19 @@ export default class UpdateList extends Component {
   // Mapping out items from GET data and creating input/buttons
   listItems(zone) {
     const filteredByZone = this.state.inventory.filter(obj => obj.zone === zone);
-    return filteredByZone.map((inventory, index) => {
+    return filteredByZone.map((item, index) => {
       return(
-        <tr key={inventory._id}>
-          <td>{inventory.name}</td>
-          <td className="text-center">{inventory.quantity}</td>
-          <td className="text-center">{inventory.unit}</td>
+        <tr key={item._id}>
+          <td>{item.name}</td>
+          <td className="text-center">{item.quantity}</td>
+          <td className="text-center">{item.unit}</td>
           <td>
             <input type='number' className="form-control" onChange={this.onChangeAmount} />
           </td>
           <td>
             <div className="btn-toolbar">
               <button type="button" id='btnUpdate' className="btn-block btn-primary btn" onClick={
-              () => this.updateQuantity(inventory._id, this.state.amount, index)
+              () => this.updateQuantity(item._id, this.state.amount, index)
               }>Update</button>
             </div>
           </td>
