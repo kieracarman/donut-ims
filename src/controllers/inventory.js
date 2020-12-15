@@ -1,113 +1,90 @@
 const Inventory = require('../models/inventory');
 
 // Handle incoming GET requests to view all possible items
-exports.getAll = async (req, res, next) => {
-  try {
-    const inventory = await Inventory.find();
-    res.json(inventory);
-  } catch (error) {
-    res.status(500).send('Error pulling inventory');
-    next(error);
-  }
+exports.getAll = (req, res, next) => {
+  Inventory.find()
+    .then((items) => {
+      res.json(items);
+    })
+    .catch((err) => {
+      res.status(500).json({ error: err });
+      next(err);
+    });
 };
 
 // Handle incoming specified GET requests to view single item
-exports.getOne = async (req, res, next) => {
-  try {
-    await Inventory.findById(req.params.invId)
-      .exec()
-      .then((inventory) => {
-        if (!inventory) {
-          res.status(404).json({ message: 'Item not found' });
-        } else {
-          res.status(200).json({ inventory });
-        }
-      })
-      .catch((err) => {
-        res.status(500).json({ error: err });
-      });
-  } catch (error) {
-    res.status(500).json({ error: 'Error pulling item' });
-    next(error);
-  }
+exports.getOne = (req, res, next) => {
+  Inventory.findById(req.params.invId)
+    .then((inventory) => {
+      if (!inventory) {
+        res.status(404).json({ message: 'Item not found' });
+      } else {
+        res.status(200).json(inventory);
+      }
+    })
+    .catch((err) => {
+      res.status(500).json({ error: err });
+      next(err);
+    });
 };
 
 // Handle incoming PATCH requests to modify inventory
-exports.update = async (req, res, next) => {
-  try {
-    if (req.body.quantity < 0) {
-      res.status(400).json({ error: 'Cannot have negative inventory' });
-    }
-    const id = req.params.invId;
-    await Inventory.updateOne({ _id: id }, { $set: { quantity: req.body.quantity } })
-      .exec()
-      .then((item) => {
-        res.status(200).json({
-          message: 'Item quantity updated.',
-          id: item._id,
-        });
-      })
-      .catch((err) => {
-        res.status(500).json({
-          error: err,
-        });
-      });
-  } catch (error) {
-    res.status(500).json('Error updating inventory');
-    next(error);
+exports.updateQuantity = (req, res, next) => {
+  if (req.body.quantity < 0) {
+    res.status(400).json({ error: 'Cannot have negative inventory' });
   }
+  Inventory.updateOne({ _id: req.params.id }, { $set: { quantity: req.body.quantity } })
+    .then((item) => {
+      res.status(200).json({
+        message: 'Item quantity updated.',
+        id: item._id,
+      });
+    })
+    .catch((err) => {
+      res.status(500).json({ error: err });
+      next(err);
+    });
 };
 
 // Handle incoming POST requests to create items
-exports.create = async (req, res, next) => {
-  try {
-    const newItem = new Inventory({
-      name: req.body.name,
-      unit: req.body.unit,
-      quantity: req.body.quantity,
-      zone: req.body.zone,
-      minimumQuantity: req.body.minimumQuantity,
-      defaultOrder: req.body.defaultOrder,
-      vendor: req.body.vendor,
-    });
-    await newItem.save()
-      .then((item) => {
-        res.status(201).json({
-          message: 'Item added to inventory.',
-          id: item._id,
-        });
-      })
-      .catch((err) => {
-        res.status(500).json({ error: err });
+exports.create = (req, res, next) => {
+  const newItem = new Inventory({
+    name: req.body.name,
+    unit: req.body.unit,
+    quantity: req.body.quantity,
+    zone: req.body.zone,
+    minimumQuantity: req.body.minimumQuantity,
+    defaultOrder: req.body.defaultOrder,
+    vendor: req.body.vendor,
+  });
+  newItem.save()
+    .then((item) => {
+      res.status(201).json({
+        message: 'Item added to inventory.',
+        id: item._id,
       });
-  } catch (error) {
-    res.status(500).json('Error POSTing to inventory');
-    next(error);
-  }
+    })
+    .catch((err) => {
+      res.status(500).json({ error: err });
+      next(err);
+    });
 };
 
 // Handle incoming DELETE requests to remove items
-exports.delete = async (req, res, next) => {
-  try {
-    await Inventory.findByIdAndDelete(req.params.invId)
-      .exec()
-      .then((item) => {
-        if (!item) {
-          res.status(400).json({
-            message: 'Item does not exist',
-          });
-        }
-        res.status(200).json({
-          message: 'Item deleted',
+exports.delete = (req, res, next) => {
+  Inventory.findByIdAndDelete(req.params.invId)
+    .then((item) => {
+      if (!item) {
+        res.status(400).json({
+          message: 'Item does not exist',
         });
-      })
-      .catch((err) => {
-        res.status(500).json({
-          error: err,
-        });
+      }
+      res.status(200).json({
+        message: 'Item deleted',
       });
-  } catch (error) {
-    res.status(500).json('Error deleting item');
-    next(error);
-  }
+    })
+    .catch((err) => {
+      res.status(500).json({ error: err });
+      next(err);
+    });
 };
