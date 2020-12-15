@@ -54,6 +54,7 @@ app.use((error, req, res, next) => {
       message: error.message,
     },
   });
+  next(error);
 });
 
 app.listen(port, () => {
