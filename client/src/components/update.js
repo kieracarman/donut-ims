@@ -21,7 +21,7 @@ export default class UpdateList extends Component {
       .then(response => {
         this.setState({inventory: response.data});
       })
-      .catch(function (error) {
+      .catch((error) => {
         console.log(error);
       })
   }
@@ -35,8 +35,9 @@ export default class UpdateList extends Component {
 
   // Helper function to change state value, since it is an array
   // we must create copy and modify copy
-  onChangeQuantity(e, index) {
+  onChangeQuantity(id, e) {
     const newQuantity = this.state.inventory.slice()
+    const index = Number(this.state.inventory.findIndex(x => x._id === id))
     newQuantity[index].quantity = e
     this.setState({
       inventory: newQuantity
@@ -44,7 +45,7 @@ export default class UpdateList extends Component {
   }
 
   // Function called when button is pressed
-  async updateQuantity(id, amount, index) {
+  async updateQuantity(id, amount) {
     var newQuantity = Number(amount)
     if (newQuantity < 0) {
       alert("Inventory cannot be less than 0")
@@ -53,13 +54,16 @@ export default class UpdateList extends Component {
     const obj = {
       quantity: newQuantity
     }
-
+    
     // After patch has been confirmed to database change state to change component
-    await axios.patch('/inv/'+id, obj)
+    await axios.patch(`/inv/${id}`, obj)
       .then(res => {
-        this.onChangeQuantity(newQuantity, index)
+        this.onChangeQuantity(id, newQuantity)
         console.log(res.data.message)
-      });
+      })
+      .catch((error) => {
+        console.log(error);
+      })
   }
 
   // Mapping out items from GET data and creating input/buttons
@@ -77,7 +81,7 @@ export default class UpdateList extends Component {
           <td>
             <div className="btn-toolbar">
               <button type="button" id='btnUpdate' className="btn-block btn-primary btn" onClick={
-              () => this.updateQuantity(item._id, this.state.amount, index)
+              () => this.updateQuantity(item._id, this.state.amount)
               }>Update</button>
             </div>
           </td>
