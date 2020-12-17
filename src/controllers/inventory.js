@@ -14,7 +14,7 @@ exports.getAll = (req, res, next) => {
 
 // Handle incoming specified GET requests to view single item
 exports.getOne = (req, res, next) => {
-  Inventory.findById(req.params.invId)
+  Inventory.findById(req.params.id)
     .then((inventory) => {
       if (!inventory) {
         res.status(404).json({ message: 'Item not found' });
@@ -72,7 +72,7 @@ exports.create = (req, res, next) => {
 
 // Handle incoming DELETE requests to remove items
 exports.delete = (req, res, next) => {
-  Inventory.findByIdAndDelete(req.params.invId)
+  Inventory.findByIdAndDelete(req.params.id)
     .then((item) => {
       if (!item) {
         res.status(400).json({

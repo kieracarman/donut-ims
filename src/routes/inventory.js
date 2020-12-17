@@ -5,9 +5,9 @@ const router = Router();
 const inventoryController = require('../controllers/inventory');
 
 router.get('/', inventoryController.getAll);
-router.get('/:invId', inventoryController.getOne);
-router.patch('/:invId', inventoryController.updateQuantity);
+router.get('/:id', inventoryController.getOne);
+router.patch('/:id', inventoryController.updateQuantity);
 router.post('/', inventoryController.create);
-router.delete('/:invId', inventoryController.delete);
+router.delete('/:id', inventoryController.delete);
 
 module.exports = router;
