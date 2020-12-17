@@ -241,8 +241,8 @@ export default class UpdateList extends Component {
           <thead>
             <tr>
               <th style={{width: '29%'}}>Item Name</th>
-              <th style={{width: '7%'}}>Quantity</th>
-              <th style={{width: '10%'}}>Unit</th>
+              <th style={{width: '7%'}}>Unit</th>
+              <th style={{width: '10%'}}>Quantity</th>
               <th style={{width: '15%'}}>Zone</th>
               <th style={{width: '7%'}}>MinQty</th>
               <th style={{width: '7%'}}>Default</th>
