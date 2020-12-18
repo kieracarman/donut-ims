@@ -1,8 +1,7 @@
 {
   "name": "ims",
   "version": "1.0.0",
-  "description": "## Technologies used:  - Node.js  - Express.js  - MongoDB  - React.js",
-  "main": "index.js",
+  "description": "",
   "scripts": {
     "server": "cd server && npm start",
     "client": "cd client && npm start",
@@ -12,7 +11,7 @@
     "type": "git",
     "url": "git+https://github.com/kieracarman/donut-ims.git"
   },
-  "author": "",
+  "author": "Kiera Carman <kiera.carman@gmail.com>",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/kieracarman/donut-ims/issues"
