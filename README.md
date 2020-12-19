@@ -1,4 +1,8 @@
 # One Ring Donuts IMS
+To install:
+```
+./setup.sh
+```
 
 ## Technologies used:
  - Node.js
