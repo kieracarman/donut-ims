@@ -3,14 +3,14 @@ const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-const keys = require('../../config/keys');
+require('dotenv').config();
 
 // Load input validation
-const validateRegisterInput = require('../../validation/register');
-const validateLoginInput = require('../../validation/login');
+const validateRegisterInput = require('../validation/register');
+const validateLoginInput = require('../validation/login');
 
 // Load User model
-const User = require('../../models/User');
+const User = require('../models/user');
 
 // @route POST api/users/register
 // @desc Register user
@@ -35,14 +35,14 @@ router.post('/register', (req, res) => {
     });
 
     // Hash password before saving in database
-    bcrypt.genSalt(10, (err, salt) => {
+    bcrypt.genSalt(10, (error, salt) => {
       bcrypt.hash(newUser.password, salt, (err, hash) => {
         if (err) throw err;
         newUser.password = hash;
         newUser
           .save()
-          .then((user) => res.json(user))
-          .catch((err) => console.log(err));
+          .then((result) => res.json(result))
+          .catch((e) => console.log(e));
       });
     });
   });
@@ -83,7 +83,7 @@ router.post('/login', (req, res) => {
         // Sign token
         jwt.sign(
           payload,
-          keys.secretOrKey,
+          process.env.SECRET_OR_KEY,
           {
             expiresIn: 31556926, // 1 year in seconds
           },
