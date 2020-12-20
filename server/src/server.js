@@ -4,13 +4,15 @@ const cors = require('cors');
 const morgan = require('morgan');
 const mongoose = require('mongoose');
 const path = require('path');
+const passport = require('passport');
 
 require('dotenv').config();
 
+const auth = require('./routes/users');
+const inventoryRoutes = require('./routes/inventory');
+
 const app = express();
 const port = process.env.PORT || 4000;
-
-const inventoryRoutes = require('./routes/inventory');
 
 app.use(morgan('tiny'));
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -27,16 +29,22 @@ if (process.env.NODE_ENV === 'production') {
 }
 
 // Initialize connection once and create connection pool
-mongoose.connect(process.env.DATABASE_URL, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-},
-(err) => {
-  if (err) throw err;
-  console.log('Database Connected');
-});
+mongoose
+  .connect(
+    process.env.DATABASE_URL, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    },
+  )
+  .then(() => console.log('Database Connected'))
+  .catch((err) => console.log(err));
+
+// Passport middleware
+app.use(passport.initialize());
+require('./config/passport')(passport);
 
 // Routes that should handle requests
+app.use('/auth', auth);
 app.use('/inv', inventoryRoutes);
 
 // Catch errors that go beyond the above routes
