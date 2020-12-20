@@ -3,9 +3,9 @@ import {BrowserRouter as Router, Route, Link} from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.css";
 import "./App.css";
 
-import Update from "./components/update"
-import Manage from "./components/manage"
-import Order from "./components/order"
+import Update from "./components/inventory/update"
+import Manage from "./components/inventory/manage"
+import Order from "./components/inventory/order"
 
 // Import logo
 import logo from "./Logo.png"
