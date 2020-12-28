@@ -9,7 +9,7 @@ const passport = require('passport');
 require('dotenv').config();
 
 const auth = require('./routes/users');
-const inventoryRoutes = require('./routes/inventory');
+const inventory = require('./routes/inventory');
 
 const app = express();
 const port = process.env.PORT || 4000;
@@ -45,7 +45,7 @@ require('./config/passport')(passport);
 
 // Routes that should handle requests
 app.use('/auth', auth);
-app.use('/inv', inventoryRoutes);
+app.use('/inv', inventory);
 
 // Catch errors that go beyond the above routes
 app.use((req, res, next) => {
