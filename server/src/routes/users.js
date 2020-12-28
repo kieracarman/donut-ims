@@ -4,11 +4,6 @@ const router = Router();
 
 const usersController = require('../controllers/users');
 
-// @route POST api/users/register
-// @desc Register user
-// @access Public
-router.post('/register', usersController.register);
-
 // @route POST api/users/login
 // @desc Login user and return JWT token
 // @access Public
