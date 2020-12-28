@@ -1,40 +1,60 @@
-import React from 'react';
-import {BrowserRouter as Router, Route, Link} from "react-router-dom";
+import React, { Component } from 'react';
+import { BrowserRouter as Router, Route } from "react-router-dom";
+import jwt_decode from 'jwt-decode';
+import setAuthToken from './utils/setAuthToken';
+import { setCurrentUser, logoutUser } from './actions/authActions';
 import "bootstrap/dist/css/bootstrap.css";
 import "./App.css";
 
-import Update from "./components/inventory/update"
-import Manage from "./components/inventory/manage"
-import Order from "./components/inventory/order"
+import { Provider } from 'react-redux';
+import store from './store';
 
-// Import logo
-import logo from "./Logo.png"
+import Navbar from "./components/layout/Navbar";
+import Login from "./components/auth/Login";
+import Update from "./components/inventory/update";
+import Manage from "./components/inventory/manage";
+import Order from "./components/inventory/order";
+import PrivateRoute from "./components/private-route/PrivateRoute";
 
-function App() {
-  return (
-    <Router>
-      <nav className="navbar navbar-expand-sm navbar-dark bg-dark" style={{marginBottom: "20px"}}>
-        <Link to="/" className="navbar-brand"><img src={logo} width="30" height="30" alt="Logo" /></Link>
-        <Link to="/" className="navbar-brand">One Ring Donuts IMS</Link>
-        <div className="collapse navbar-collapse">
-          <ul className="navbar-nav mr-auto">
-           <li className="navbar-item">
-              <Link to="/" className="nav-link">Inventory</Link>
-            </li>
-            <li className="navbar-item">
-              <Link to="/manage" className="nav-link">Manage Items</Link>
-            </li>
-            <li className="navbar-item">
-              <Link to="/order" className="nav-link">Order Restock</Link>
-            </li>
-         </ul>
-        </div>
-      </nav>
-      <Route path="/" exact component={Update} />
-      <Route path="/manage/" component={Manage} />
-      <Route path="/order/" component={Order} />
-    </Router>
-  );
+// Check for token to keep user logged in
+if (localStorage.jwtToken) {
+  // Set auth token header auth
+  const token = localStorage.jwtToken;
+  setAuthToken(token);
+
+  // Decode token and get user info and exp
+  const decoded = jwt_decode(token);
+
+  // Set user and isAuthenticated
+  store.dispatch(setCurrentUser(decoded));
+
+  // Check for expired token
+  const currentTime = Date.now() / 1000; // to get in milliseconds
+  if (decoded.exp < currentTime) {
+    // Logout user
+    store.dispatch(logoutUser());
+
+    // Redirect to login
+    window.location.href = '/';
+  }
+}
+
+class App extends Component {
+  render() {
+    return (
+      <Provider store={store}>
+        <Router>
+          <div className='App'>
+            <Route exact path='/' component={Login} />
+            <PrivateRoute path="/" component={Navbar} />
+            <PrivateRoute path="/" exact component={Update} />
+            <PrivateRoute path="/manage/" component={Manage} />
+            <PrivateRoute path="/order/" component={Order} />
+          </div>
+        </Router>
+      </Provider>
+    );
+  }
 }
 
 export default App;
