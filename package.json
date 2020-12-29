@@ -1,11 +1,15 @@
 {
   "name": "ims",
   "version": "1.0.0",
+  "engines": {
+    "node": "14.15.3"
+  },
   "description": "",
   "scripts": {
     "server": "npm start --prefix server",
     "client": "npm start --prefix client",
-    "dev": "concurrently \"npm run server\" \"npm run client\""
+    "dev": "concurrently \"npm run server\" \"npm run client\"",
+    "heroku-postbuild": "cd client && npm install && npm run build"
   },
   "repository": {
     "type": "git",
