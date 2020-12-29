@@ -4,6 +4,8 @@ import { connect } from 'react-redux';
 import { loginUser } from '../../actions/authActions';
 import classnames from 'classnames';
 
+import logo from '../../Logo.png';
+
 class Login extends Component {
   constructor() {
     super();
@@ -56,6 +58,9 @@ class Login extends Component {
         <div className='row justify-content-center align-items-center text-center' style={{height: '100vh'}}>
           <div className=''>
             <form noValidate onSubmit={this.onSubmit}>
+              <div className='form-group'>
+                <img src={logo} width='100' height='100' alt='Logo' />
+              </div>
               <div className='form-group'>
                 <input
                   onChange={this.onChange}
