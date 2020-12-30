@@ -44,8 +44,8 @@ app.use(passport.initialize());
 require('./config/passport')(passport);
 
 // Routes that should handle requests
-app.use('/auth', auth);
-app.use('/inv', inventory);
+app.use('/api/auth', auth);
+app.use('/api/inv', inventory);
 
 // Catch errors that go beyond the above routes
 app.use((req, res, next) => {
