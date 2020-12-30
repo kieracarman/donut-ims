@@ -1,4 +1,4 @@
-import { sslRedirect } from 'heroku-ssl-redirect';
+import sslRedirect from 'heroku-ssl-redirect';
 
 const express = require('express');
 const bodyParser = require('body-parser');
