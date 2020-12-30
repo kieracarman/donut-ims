@@ -1,5 +1,5 @@
 # One Ring Donuts IMS
-To install:
+To install dev environment:
 ```
 ./setup.sh
 ```
