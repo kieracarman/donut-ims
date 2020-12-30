@@ -7,8 +7,10 @@
   "description": "",
   "main": "src/server.js",
   "scripts": {
+    "server": "nodemon src/server.js",
+    "client": "npm start --prefix client",
+    "dev": "concurrently \"npm run server\" \"npm run client\"",
     "start": "node src/server.js",
-    "dev": "nodemon src/server.js",
     "heroku-postbuild": "cd client && npm install && npm run build"
   },
   "license": "ISC",
