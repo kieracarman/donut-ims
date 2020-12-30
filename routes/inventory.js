@@ -1,8 +1,9 @@
 const { Router } = require('express');
+const passport = require('passport');
 
 const router = Router();
 
-const auth = require('../middleware/auth');
+const auth = passport.authenticate('jwt', { session: false });
 
 const inventoryController = require('../controllers/inventory');
 
