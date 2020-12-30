@@ -1,5 +1,3 @@
-import sslRedirect from 'heroku-ssl-redirect';
-
 const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
@@ -21,9 +19,17 @@ app.use(morgan('tiny'));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cors());
 app.use(bodyParser.json());
-app.use(sslRedirect());
 
 if (process.env.NODE_ENV === 'production') {
+  // Force SSL/HTTPS
+  app.use((req, res, next) => {
+    if (req.header('x-forwarded-proto') !== 'https') {
+      res.redirect(`https://${req.header('host')}${req.url}`);
+    } else {
+      next();
+    }
+  });
+
   // Serve any static files
   app.use(express.static('client/build'));
 
