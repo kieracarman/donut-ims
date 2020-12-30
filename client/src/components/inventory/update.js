@@ -56,7 +56,7 @@ export default class UpdateList extends Component {
     }
     
     // After patch has been confirmed to database change state to change component
-    await axios.patch(`/api/inv/${id}`, obj)
+    await axios.patch(`/api/inv/${id}`, obj) 
       .then(res => {
         this.onChangeQuantity(id, newQuantity)
         console.log(res.data.message)
