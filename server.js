@@ -5,6 +5,7 @@ const morgan = require('morgan');
 const mongoose = require('mongoose');
 const path = require('path');
 const passport = require('passport');
+const sslRedirect = require('heroku-ssl-redirect');
 
 require('dotenv').config();
 
@@ -14,10 +15,12 @@ const inventory = require('./routes/inventory');
 const app = express();
 const port = process.env.PORT || 4000;
 
+// Middlewares
 app.use(morgan('tiny'));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cors());
 app.use(bodyParser.json());
+app.use(sslRedirect());
 
 if (process.env.NODE_ENV === 'production') {
   // Serve any static files
