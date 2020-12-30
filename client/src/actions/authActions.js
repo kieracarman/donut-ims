@@ -11,7 +11,7 @@ import {
 // Login - get user token
 export const loginUser = userData => dispatch => {
   axios
-    .post('/auth/login', userData)
+    .post('/api/auth/login', userData)
     .then(res => {
       // Save to localStorage
       

@@ -29,7 +29,7 @@ export default class UpdateList extends Component {
 
   // Starting lifecycle and calling for data from database
   componentDidMount() {
-    axios.get('/inv/')
+    axios.get('/api/inv/')
       .then(response => {
         this.setState({inventory: response.data});
       })
@@ -136,7 +136,7 @@ export default class UpdateList extends Component {
       vendor: this.state.newItemVendor,
     }
 
-    await axios.post('/inv/', newItem)
+    await axios.post('/api/inv/', newItem)
       .then(res => {
         this.onChangeItem(res.data.id);
         console.log(res.data.message);
@@ -157,7 +157,7 @@ export default class UpdateList extends Component {
   async removeItem(id, index) {
     // After patch has been confirmed to database
     // change state to change component
-    await axios.delete('/inv/' + id)
+    await axios.delete('/api/inv/' + id)
       .then(res => {
         // Helper function to remove item from state
         this.onDeleteItem(index)

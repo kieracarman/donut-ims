@@ -13,7 +13,7 @@ export default class UpdateList extends Component {
 
   // Starting lifecycle and calling for data from database
   componentDidMount() {
-    axios.get('/inv/')
+    axios.get('/api/inv/')
       .then(response => {
         this.setState({inventory: response.data});
       })
