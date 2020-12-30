@@ -20,14 +20,12 @@ app.use(cors());
 app.use(bodyParser.json());
 
 if (process.env.NODE_ENV === 'production') {
-  console.log('Serving static files...');
   // Serve any static files
-  app.use(express.static('../client/build'));
+  app.use(express.static('client/build'));
 
   app.get(/^\/(?!api).*/, (req, res) => {
-    res.sendFile(path.resolve(__dirname, '../client/build'));
+    res.sendFile(path.resolve(__dirname, 'client/build'));
   });
-  console.log('Files served.');
 }
 
 // Initialize connection once and create connection pool

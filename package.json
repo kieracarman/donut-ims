@@ -5,12 +5,12 @@
     "node": "14.15.3"
   },
   "description": "",
-  "main": "src/server.js",
+  "main": "server.js",
   "scripts": {
-    "server": "nodemon src/server.js",
+    "server": "nodemon server.js",
     "client": "npm start --prefix client",
     "dev": "concurrently \"npm run server\" \"npm run client\"",
-    "start": "node src/server.js",
+    "start": "node server.js",
     "heroku-postbuild": "cd client && npm install && npm run build"
   },
   "license": "ISC",
