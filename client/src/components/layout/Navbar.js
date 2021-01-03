@@ -32,7 +32,7 @@ class Navbar extends Component {
             </ul>
             <ul className="navbar-nav navbar-right">
               <li className="navbar-item">
-                <Link className="nav-link" onClick={this.onLogoutClick}>Logout</Link>
+                <Link to='/logout' className="nav-link" onClick={this.onLogoutClick}>Logout</Link>
               </li>
             </ul>
           </div>
