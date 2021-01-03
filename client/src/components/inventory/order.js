@@ -26,12 +26,12 @@ export default class UpdateList extends Component {
   listItems(vendor) {
     const itemsNeedingReorder = this.state.inventory.filter(obj => obj.quantity <= obj.minimumQuantity);
     const filteredByVendor = itemsNeedingReorder.filter(obj => obj.vendor === vendor);
-    return filteredByVendor.map((inventory, index) => {
+    return filteredByVendor.map((inventory) => {
       return(
         <tr key={inventory._id}>
-          <td>{inventory.name}</td>
-          <td className="text-center">{inventory.defaultOrder}</td>
-          <td className="text-center">{inventory.unit}</td>
+          <td className='text-left'>{inventory.name}</td>
+          <td>{inventory.defaultOrder}</td>
+          <td>{inventory.unit}</td>
         </tr>
       );
     })
@@ -48,7 +48,7 @@ export default class UpdateList extends Component {
           <table className="table table-striped table-bordered table-hover" style={{marginTop:20}}>
             <thead>
               <tr>
-                <th style={{width: '80%'}}>Item</th>
+                <th className='text-left' style={{width: '80%'}}>Item</th>
                 <th style={{width: '10%'}}>Order</th>
                 <th style={{width: '10%'}}>Unit</th>
               </tr>

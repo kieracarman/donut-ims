@@ -72,9 +72,9 @@ export default class UpdateList extends Component {
     return filteredByZone.map((item, index) => {
       return(
         <tr key={item._id}>
-          <td>{item.name}</td>
-          <td className="text-center">{item.quantity}</td>
-          <td className="text-center">{item.unit}</td>
+          <td className="text-left">{item.name}</td>
+          <td>{item.quantity}</td>
+          <td>{item.unit}</td>
           <td>
             <input type='number' className="form-control" onChange={this.onChangeAmount} />
           </td>
@@ -100,7 +100,7 @@ export default class UpdateList extends Component {
           <table className="table table-striped table-bordered table-hover" style={{marginTop:20}}>
             <thead>
               <tr>
-                <th style={{width: '72%'}}>Item</th>
+                <th className='text-left' style={{width: '72%'}}>Item</th>
                 <th style={{width: '7%'}}>Quantity</th>
                 <th style={{width: '7%'}}>Unit</th>
                 <th style={{width: '7%'}}>Update</th>

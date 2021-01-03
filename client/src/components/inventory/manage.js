@@ -1,5 +1,7 @@
 import React, {Component} from 'react';
 import axios from 'axios';
+import { ReactSortable } from 'react-sortablejs';
+import { List } from 'react-bootstrap-icons';
 
 export default class UpdateList extends Component {
   constructor(props) {
@@ -170,15 +172,16 @@ export default class UpdateList extends Component {
     return this.state.inventory.map((item, index) => {
         return(
           <tr key={item._id}>
-            <td>{item.name}</td>
-            <td className="text-center">{item.unit}</td>
-            <td className="text-center">{item.quantity}</td>
-            <td className="text-center">{item.zone}</td>
-            <td className="text-center">{item.minimumQuantity}</td>
-            <td className="text-center">{item.defaultOrder}</td>
-            <td className="text-center">{item.vendor}</td>
+            <td><List className='drag-handle' /></td>
+            <td className='text-left'>{item.name}</td>
+            <td>{item.unit}</td>
+            <td>{item.quantity}</td>
+            <td>{item.zone}</td>
+            <td>{item.minimumQuantity}</td>
+            <td>{item.defaultOrder}</td>
+            <td>{item.vendor}</td>
             <td>
-              <button type="button" id='btnDelete' className="btn-block btn-danger btn" onClick={ e =>
+              <button type="button" id='btnDelete' className="btn-block btn-danger btn" onClick={ () =>
                 window.confirm("Are you sure you want to delete this item?") &&
                 this.removeItem(item._id, index)}>Remove</button>
             </td>
@@ -195,13 +198,13 @@ export default class UpdateList extends Component {
           <table className="table table-borderless">
             <thead>
               <tr>
-                <th style={{width: '32%'}}>Item</th>
+                <th className='text-left' style={{width: '29%'}}>Item</th>
                 <th style={{width: '10%'}}>Unit</th>
                 <th style={{width: '7%'}}>Quantity</th>
                 <th style={{width: '12%'}}>Zone</th>
                 <th style={{width: '7%'}}>MinQty</th>
                 <th style={{width: '7%'}}>Default</th>
-                <th style={{width: '20%'}}>Vendor</th>
+                <th className='text-left' style={{width: '20%'}}>Vendor</th>
                 <th style={{width: '5%'}}></th>
               </tr>
             </thead>
@@ -240,7 +243,8 @@ export default class UpdateList extends Component {
         <table className="table table-striped table-bordered table-hover" style={{marginTop:20}}>
           <thead>
             <tr>
-              <th style={{width: '29%'}}>Item Name</th>
+              <th style={{width: '3%'}}></th>
+              <th className='text-left' style={{width: '26%'}}>Item Name</th>
               <th style={{width: '7%'}}>Unit</th>
               <th style={{width: '10%'}}>Quantity</th>
               <th style={{width: '15%'}}>Zone</th>
@@ -250,9 +254,18 @@ export default class UpdateList extends Component {
               <th style={{width: '5%'}}></th>
             </tr>
           </thead>
-          <tbody>
+          <ReactSortable
+            handle='.drag-handle'
+            animation={150}
+            direction='vertical'
+            delay={2}
+            delayOnTouchOnly={true}
+            tag='tbody'
+            list={this.state.inventory}
+            setList={(newState) => this.setState({ inventory: newState })}
+          >
             {this.listItems()}
-          </tbody>
+          </ReactSortable>
         </table> 
         <footer style={{marginTop:"70px"}}>
         </footer>
