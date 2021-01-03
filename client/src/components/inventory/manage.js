@@ -40,7 +40,7 @@ export default class UpdateList extends Component {
       })
   }
 
-  // Function to change name state value
+    // Function to change name state value
   onChangeName(e) {
     this.setState({
       newItemName: e.target.value
@@ -210,30 +210,14 @@ export default class UpdateList extends Component {
             </thead>
             <tbody>
               <tr>
-                <td>
-                  <input type="text" className="form-control" value={this.state.newItemName} onChange={this.onChangeName}/>
-                </td>
-                <td>
-                  <input type="text" className="form-control" value={this.state.newItemUnit} onChange={this.onChangeUnit}/>
-                </td>
-                <td>
-                  <input type="number" className="form-control" value={this.state.newItemQuantity} onChange={this.onChangeQuantity}/>
-                </td>
-                <td>
-                  <input type="text" className="form-control" value={this.state.newItemZone} onChange={this.onChangeZone}/>
-                </td>
-                <td>
-                  <input type="number" className="form-control" value={this.state.newItemMinimumQuantity} onChange={this.onChangeMinimumQuantity}/>
-                </td>
-                <td>
-                  <input type="number" className="form-control" value={this.state.newItemDefaultOrder} onChange={this.onChangeDefaultOrder}/>
-                </td>
-                <td>
-                  <input type="text" className="form-control" value={this.state.newItemVendor} onChange={this.onChangeVendor}/>
-                </td>
-                <td>
-                  <input type="submit" value="Add" className="btn btn-block btn-success"/>
-                </td>
+                <td><input type="text" className="form-control" value={this.state.newItemName} onChange={this.onChangeName}/></td>
+                <td><input type="text" className="form-control" value={this.state.newItemUnit} onChange={this.onChangeUnit}/></td>
+                <td><input type="number" className="form-control" value={this.state.newItemQuantity} onChange={this.onChangeQuantity}/></td>
+                <td><input type="text" className="form-control" value={this.state.newItemZone} onChange={this.onChangeZone}/></td>
+                <td><input type="number" className="form-control" value={this.state.newItemMinimumQuantity} onChange={this.onChangeMinimumQuantity}/></td>
+                <td><input type="number" className="form-control" value={this.state.newItemDefaultOrder} onChange={this.onChangeDefaultOrder}/></td>
+                <td><input type="text" className="form-control" value={this.state.newItemVendor} onChange={this.onChangeVendor}/></td>
+                <td><input type="submit" value="Add" className="btn btn-block btn-success"/></td>
               </tr>
             </tbody>
           </table>
