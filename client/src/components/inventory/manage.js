@@ -167,6 +167,10 @@ export default class UpdateList extends Component {
       });
   }
 
+  async updateList() {
+    await axios.put('/api/inv/', this.state.inventory);
+  }
+
   // Mapping out GET data
   listItems() {
     return this.state.inventory.map((item, index) => {
@@ -247,6 +251,7 @@ export default class UpdateList extends Component {
             tag='tbody'
             list={this.state.inventory}
             setList={(newState) => this.setState({ inventory: newState })}
+            onEnd={() => this.updateList()}
           >
             {this.listItems()}
           </ReactSortable>

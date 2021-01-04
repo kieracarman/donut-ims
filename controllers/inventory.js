@@ -46,6 +46,11 @@ exports.updateQuantity = (req, res, next) => {
     });
 };
 
+// Handle incoming PUT requests to sort items
+exports.sortInventory = (req, res, next) => {
+  console.log(req.body);
+};
+
 // Handle incoming POST requests to create items
 exports.create = (req, res, next) => {
   const newItem = new Inventory({
