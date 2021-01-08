@@ -48,15 +48,18 @@ exports.updateQuantity = (req, res, next) => {
 };
 
 // Handle incoming PATCH requests to update sort index
-exports.updateSort = (req, res) => {
+exports.updateSort = (req, res, next) => {
   // Asynchronously iterate over the database and
   // update documents one by one.
   async.eachSeries(req.body, (obj, done) => {
     Inventory.update({ _id: obj.id }, { $set: { sortIndex: obj.sortIndex } }, done);
   }, (err) => {
     if (err) {
-      res.json({
-        error: err,
+      res.statue(500).json({ error: err });
+      next(err);
+    } else {
+      res.status(200).json({
+        message: 'Sort index updated.',
       });
     }
   });
