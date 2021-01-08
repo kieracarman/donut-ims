@@ -26,6 +26,7 @@ export default class UpdateList extends Component {
       newItemMinimumQuantity: '',
       newItemDefaultOrder: '',
       newItemVendor: '',
+      isSorting: false,
     }
   }
 
@@ -166,9 +167,44 @@ export default class UpdateList extends Component {
         console.log(res.data.message)
       });
   }
+  
+  updateList(newState) {
+    // Check if we are still sorting
+    if (!this.state.isSorting) return;
+    this.setState({
+      isSorting: false
+    })
 
-  async updateList() {
-    await axios.put('/api/inv/', this.state.inventory);
+    // Create a new array from the sorted array returned from sorting function
+    const sortedList = newState.slice()
+
+    // Update sortIndex to match new sort
+    sortedList.forEach((item, index) => {
+      item.sortIndex = index
+    });
+
+    // Create a new array of ids with their sort index to send to backend
+    const sortData = sortedList.map((item) => {
+      return({
+        id: item._id,
+        sortIndex: item.sortIndex
+      });
+    });
+    
+    // Call function to send sort data to backend
+    this.sendSortedList(sortData);
+
+    // Update state with new sorted inventory list
+    this.setState({
+      inventory: sortedList
+    })
+  }
+
+  async sendSortedList(list) {
+    await axios.patch('/api/inv/', list)
+      .then(res => {
+        console.log(res.data.message);
+      });
   }
 
   // Mapping out GET data
@@ -250,8 +286,8 @@ export default class UpdateList extends Component {
             delayOnTouchOnly={true}
             tag='tbody'
             list={this.state.inventory}
-            setList={(newState) => this.setState({ inventory: newState })}
-            onEnd={() => this.updateList()}
+            onUpdate={() => this.setState({ isSorting: true })}
+            setList={(newState) => this.updateList(newState)}
           >
             {this.listItems()}
           </ReactSortable>
