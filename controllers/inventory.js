@@ -1,3 +1,4 @@
+const async = require('async');
 const Inventory = require('../models/inventory');
 
 // Handle incoming GET requests to view all possible items
@@ -46,9 +47,19 @@ exports.updateQuantity = (req, res, next) => {
     });
 };
 
-// Handle incoming PUT requests to sort items
-exports.sortInventory = (req, res, next) => {
-  console.log(req.body);
+// Handle incoming PATCH requests to update sort index
+exports.updateSort = (req, res) => {
+  // Asynchronously iterate over the database and
+  // update documents one by one.
+  async.eachSeries(req.body, (obj, done) => {
+    Inventory.update({ _id: obj.id }, { $set: { sortIndex: obj.sortIndex } }, done);
+  }, (err) => {
+    if (err) {
+      res.json({
+        error: err,
+      });
+    }
+  });
 };
 
 // Handle incoming POST requests to create items
@@ -61,6 +72,7 @@ exports.create = (req, res, next) => {
     minimumQuantity: req.body.minimumQuantity,
     defaultOrder: req.body.defaultOrder,
     vendor: req.body.vendor,
+    sortIndex: req.body.sortIndex,
   });
   newItem.save()
     .then((item) => {
