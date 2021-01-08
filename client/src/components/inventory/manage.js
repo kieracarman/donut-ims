@@ -34,7 +34,16 @@ export default class UpdateList extends Component {
   componentDidMount() {
     axios.get('/api/inv/') 
       .then(response => {
-        this.setState({inventory: response.data});
+        // Create holder array so we can sort properly
+        const sortList = response.data.slice()
+
+        // Update index according to sortIndex
+        sortList.sort((a, b) => {
+          return a.sortIndex - b.sortIndex
+        });
+        
+        // Set inventory state to sorted list
+        this.setState({inventory: sortList});
       })
       .catch(function (error) {
         console.log(error);
