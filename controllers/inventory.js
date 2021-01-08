@@ -52,7 +52,7 @@ exports.updateSort = (req, res, next) => {
   // Asynchronously iterate over the database and
   // update documents one by one.
   async.eachSeries(req.body, (obj, done) => {
-    Inventory.update({ _id: obj.id }, { $set: { sortIndex: obj.sortIndex } }, done);
+    Inventory.updateOne({ _id: obj.id }, { $set: { sortIndex: obj.sortIndex } }, done);
   }, (err) => {
     if (err) {
       res.statue(500).json({ error: err });
