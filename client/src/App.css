@@ -20,7 +20,25 @@ input::-webkit-inner-spin-button {
   margin: 0;
 }
 
+.table th {
+  border-left: none;
+  border-right: none;
+  text-align: center;
+}
+
 .table td {
   font-size: 1.5rem;
   vertical-align: middle;
+  border-left: none;
+  border-right: none;
+  text-align: center;
+}
+
+.sortable-ghost {
+  opacity: 0;
+}
+
+.drag-handle {
+  cursor: move;
+  cursor: -webkit-grabbing;
 }

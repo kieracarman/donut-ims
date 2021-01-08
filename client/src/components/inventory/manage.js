@@ -1,5 +1,7 @@
 import React, {Component} from 'react';
 import axios from 'axios';
+import { ReactSortable } from 'react-sortablejs';
+import { List } from 'react-bootstrap-icons';
 
 export default class UpdateList extends Component {
   constructor(props) {
@@ -24,6 +26,7 @@ export default class UpdateList extends Component {
       newItemMinimumQuantity: '',
       newItemDefaultOrder: '',
       newItemVendor: '',
+      isSorting: false,
     }
   }
 
@@ -31,14 +34,23 @@ export default class UpdateList extends Component {
   componentDidMount() {
     axios.get('/api/inv/') 
       .then(response => {
-        this.setState({inventory: response.data});
+        // Create holder array so we can sort properly
+        const sortList = response.data.slice()
+
+        // Update index according to sortIndex
+        sortList.sort((a, b) => {
+          return a.sortIndex - b.sortIndex
+        });
+        
+        // Set inventory state to sorted list
+        this.setState({inventory: sortList});
       })
       .catch(function (error) {
         console.log(error);
       })
   }
 
-  // Function to change name state value
+    // Function to change name state value
   onChangeName(e) {
     this.setState({
       newItemName: e.target.value
@@ -164,21 +176,61 @@ export default class UpdateList extends Component {
         console.log(res.data.message)
       });
   }
+  
+  updateList(newState) {
+    // Check if we are still sorting
+    if (!this.state.isSorting) return;
+    this.setState({
+      isSorting: false
+    })
+
+    // Create a new array from the sorted array returned from sorting function
+    const sortedList = newState.slice()
+
+    // Update sortIndex to match new sort
+    sortedList.forEach((item, index) => {
+      item.sortIndex = index
+    });
+
+    // Create a new array of ids with their sort index to send to backend
+    const sortData = sortedList.map((item) => {
+      return({
+        id: item._id,
+        sortIndex: item.sortIndex
+      });
+    });
+    
+    // Call function to send sort data to backend
+    this.sendSortedList(sortData);
+
+    // Update state with new sorted inventory list
+    this.setState({
+      inventory: sortedList
+    })
+  }
+
+  async sendSortedList(list) {
+    await axios.patch('/api/inv/', list)
+      .then(res => {
+        console.log(res.data.message);
+      });
+  }
 
   // Mapping out GET data
   listItems() {
     return this.state.inventory.map((item, index) => {
         return(
           <tr key={item._id}>
-            <td>{item.name}</td>
-            <td className="text-center">{item.unit}</td>
-            <td className="text-center">{item.quantity}</td>
-            <td className="text-center">{item.zone}</td>
-            <td className="text-center">{item.minimumQuantity}</td>
-            <td className="text-center">{item.defaultOrder}</td>
-            <td className="text-center">{item.vendor}</td>
+            <td><List className='drag-handle' /></td>
+            <td className='text-left'>{item.name}</td>
+            <td>{item.unit}</td>
+            <td>{item.quantity}</td>
+            <td>{item.zone}</td>
+            <td>{item.minimumQuantity}</td>
+            <td>{item.defaultOrder}</td>
+            <td>{item.vendor}</td>
             <td>
-              <button type="button" id='btnDelete' className="btn-block btn-danger btn" onClick={ e =>
+              <button type="button" id='btnDelete' className="btn-block btn-danger btn" onClick={ () =>
                 window.confirm("Are you sure you want to delete this item?") &&
                 this.removeItem(item._id, index)}>Remove</button>
             </td>
@@ -195,42 +247,26 @@ export default class UpdateList extends Component {
           <table className="table table-borderless">
             <thead>
               <tr>
-                <th style={{width: '32%'}}>Item</th>
+                <th className='text-left' style={{width: '29%'}}>Item</th>
                 <th style={{width: '10%'}}>Unit</th>
                 <th style={{width: '7%'}}>Quantity</th>
                 <th style={{width: '12%'}}>Zone</th>
                 <th style={{width: '7%'}}>MinQty</th>
                 <th style={{width: '7%'}}>Default</th>
-                <th style={{width: '20%'}}>Vendor</th>
+                <th className='text-left' style={{width: '20%'}}>Vendor</th>
                 <th style={{width: '5%'}}></th>
               </tr>
             </thead>
             <tbody>
               <tr>
-                <td>
-                  <input type="text" className="form-control" value={this.state.newItemName} onChange={this.onChangeName}/>
-                </td>
-                <td>
-                  <input type="text" className="form-control" value={this.state.newItemUnit} onChange={this.onChangeUnit}/>
-                </td>
-                <td>
-                  <input type="number" className="form-control" value={this.state.newItemQuantity} onChange={this.onChangeQuantity}/>
-                </td>
-                <td>
-                  <input type="text" className="form-control" value={this.state.newItemZone} onChange={this.onChangeZone}/>
-                </td>
-                <td>
-                  <input type="number" className="form-control" value={this.state.newItemMinimumQuantity} onChange={this.onChangeMinimumQuantity}/>
-                </td>
-                <td>
-                  <input type="number" className="form-control" value={this.state.newItemDefaultOrder} onChange={this.onChangeDefaultOrder}/>
-                </td>
-                <td>
-                  <input type="text" className="form-control" value={this.state.newItemVendor} onChange={this.onChangeVendor}/>
-                </td>
-                <td>
-                  <input type="submit" value="Add" className="btn btn-block btn-success"/>
-                </td>
+                <td><input type="text" className="form-control" value={this.state.newItemName} onChange={this.onChangeName}/></td>
+                <td><input type="text" className="form-control" value={this.state.newItemUnit} onChange={this.onChangeUnit}/></td>
+                <td><input type="number" className="form-control" value={this.state.newItemQuantity} onChange={this.onChangeQuantity}/></td>
+                <td><input type="text" className="form-control" value={this.state.newItemZone} onChange={this.onChangeZone}/></td>
+                <td><input type="number" className="form-control" value={this.state.newItemMinimumQuantity} onChange={this.onChangeMinimumQuantity}/></td>
+                <td><input type="number" className="form-control" value={this.state.newItemDefaultOrder} onChange={this.onChangeDefaultOrder}/></td>
+                <td><input type="text" className="form-control" value={this.state.newItemVendor} onChange={this.onChangeVendor}/></td>
+                <td><input type="submit" value="Add" className="btn btn-block btn-success"/></td>
               </tr>
             </tbody>
           </table>
@@ -240,7 +276,8 @@ export default class UpdateList extends Component {
         <table className="table table-striped table-bordered table-hover" style={{marginTop:20}}>
           <thead>
             <tr>
-              <th style={{width: '29%'}}>Item Name</th>
+              <th style={{width: '3%'}}></th>
+              <th className='text-left' style={{width: '26%'}}>Item Name</th>
               <th style={{width: '7%'}}>Unit</th>
               <th style={{width: '10%'}}>Quantity</th>
               <th style={{width: '15%'}}>Zone</th>
@@ -250,9 +287,19 @@ export default class UpdateList extends Component {
               <th style={{width: '5%'}}></th>
             </tr>
           </thead>
-          <tbody>
+          <ReactSortable
+            handle='.drag-handle'
+            animation={150}
+            direction='vertical'
+            delay={2}
+            delayOnTouchOnly={true}
+            tag='tbody'
+            list={this.state.inventory}
+            onUpdate={() => this.setState({ isSorting: true })}
+            setList={(newState) => this.updateList(newState)}
+          >
             {this.listItems()}
-          </tbody>
+          </ReactSortable>
         </table> 
         <footer style={{marginTop:"70px"}}>
         </footer>
