@@ -63,7 +63,6 @@ class Login extends Component {
               </div>
               <div className='form-group'>
                 <input
-                  autoFocus
                   onChange={this.onChange}
                   value={this.state.username}
                   error={errors.username}
@@ -71,12 +70,12 @@ class Login extends Component {
                   type='username'
                   placeholder='Username'
                   className={classnames('form-control', {
-                    invalid: errors.username || errors.usernameNotFound
+                    invalid: errors.username || errors.usernamenotfound
                   })}
                 />
-                <span className='text-danger'>
+                <span className='red-text'>
                   {errors.username}
-                  {errors.usernameNotFound}
+                  {errors.usernamenotfound}
                 </span>
               </div>
               <div className='form-group'>
@@ -88,12 +87,12 @@ class Login extends Component {
                   type='password'
                   placeholder='Password'
                   className={classnames('form-control', {
-                    invalid: errors.password || errors.incorrectPassword
+                    invalid: errors.password || errors.passwordincorrect
                   })}
                 />
-                <span className='text-danger'>
+                <span className='red-text'>
                   {errors.password}
-                  {errors.incorrectPassword}
+                  {errors.passwordincorrect}
                 </span>
               </div>
               <button type='submit' className='btn btn-light'>Login</button>
