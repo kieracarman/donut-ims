@@ -73,7 +73,7 @@ class Login extends Component {
                     invalid: errors.username || errors.usernamenotfound
                   })}
                 />
-                <span className='red-text'>
+                <span className='text-danger'>
                   {errors.username}
                   {errors.usernamenotfound}
                 </span>
@@ -90,7 +90,7 @@ class Login extends Component {
                     invalid: errors.password || errors.passwordincorrect
                   })}
                 />
-                <span className='red-text'>
+                <span className='text-danger'>
                   {errors.password}
                   {errors.passwordincorrect}
                 </span>
