@@ -9,7 +9,7 @@ import "./App.css";
 import { Provider } from 'react-redux';
 import store from './store';
 
-import Navbar from "./components/layout/Navbar";
+import Navbar from './components/layout/Navbar';
 import Login from "./components/auth/Login";
 import Update from "./components/inventory/update";
 import Manage from "./components/inventory/manage";
@@ -46,10 +46,12 @@ class App extends Component {
         <Router>
           <div className='App'>
             <Route path='/login' component={Login} />
-            <PrivateRoute path="/" component={Navbar} />
-            <PrivateRoute path="/" exact component={Update} />
-            <PrivateRoute path="/manage/" component={Manage} />
-            <PrivateRoute path="/order/" component={Order} />
+            <PrivateRoute path='/' component={Navbar} />
+            <div className='content'>
+              <PrivateRoute path="/" exact component={Update} />
+              <PrivateRoute path="/manage/" component={Manage} />
+              <PrivateRoute path="/order/" component={Order} />
+            </div>
           </div>
         </Router>
       </Provider>
