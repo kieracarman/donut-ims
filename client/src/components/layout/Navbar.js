@@ -14,27 +14,31 @@ class Navbar extends Component {
 
   render() {
     return (
-      <div className='cd-navbar bg-dark'>
-        <Link to='/'><img src={logo} width='30' height='30' alt='Logo' /></Link>
-        <Link to='/'>One Ring Donuts IMS</Link>
-        <div>
-          <ul>
-            <li>
-              <Link to='/'>Inventory</Link>
-            </li>
-            <li>
-              <Link to='/manage'>Manage Items</Link>
-            </li>
-            <li>
-              <Link to='/order'>Order Restock</Link>
-            </li>
-          </ul>
-          <ul>
-            <li>
-              <Link to='/logout' onClick={this.onLogoutClick}>Logout</Link>
-            </li>
-          </ul>
-        </div>
+      <div>
+        <nav className='cd-navbar bg-dark'>
+          <div className='cd-navbar-brand'>
+            <Link to='/'><img src={logo} width='100%' alt='Logo' /></Link>
+            <Link to='/'>IMS</Link>
+          </div>
+          <div>
+            <ul className='cd-navbar-list'>
+              <li className='cd-navbar-item'>
+                <Link to='/' className='cd-navbar-link'>Inventory</Link>
+              </li>
+              <li className='cd-navbar-item'>
+                <Link to='/manage' className='cd-navbar-link'>Manage Items</Link>
+              </li>
+              <li className='cd-navbar-item'>
+                <Link to='/order' className='cd-navbar-link'>Order Restock</Link>
+              </li>
+            </ul>
+            <ul className='cd-navbar-footer'>
+              <li className='cd-navbar-item'>
+                <Link to='/logout' className='cd-navbar-link' onClick={this.onLogoutClick}>Logout</Link>
+              </li>
+            </ul>
+          </div>
+        </nav>
       </div>
     );
   }
