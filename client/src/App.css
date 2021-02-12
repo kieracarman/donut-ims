@@ -2,48 +2,63 @@
 
 .cd-navbar {
   height: 100%;
-  width: 80px;
+  width: 72px;
   position: fixed;
   top: 0;
   left: 0;
-  overflow: auto;
+  box-shadow: 0px 0px 24px -4px #ddd;
+  border-right: 1px solid #eee;
 }
 
 .cd-navbar-brand {
-  margin: 15px;
-  padding-bottom: 30px;
+  padding: 8px 8px;
   font-size: 0.75rem;
   text-align: center;
+  border-bottom: 1px solid #eee;
 }
 
 .cd-navbar-brand a {
-  color: rgba(255, 255, 255, 0.75);
+  color: #000;
   text-decoration: none; 
 }
 
 .cd-navbar-list {
-  margin: 15px;
-  padding: 0px;
+  padding: 0;
+  margin: 0;
   list-style: none;
   text-align: center;
 }
 
-.cd-navbar-item {
-  padding-bottom: 20px;
-  font-size: 0.65rem;
-}
-
 .cd-navbar-link {
-  color: rgba(255, 255, 255, 0.5);
+  opacity: 0.75;
+  font-size: 0.65rem;
+  display: block;
+  padding: 16px 24px;
 }
 
 .cd-navbar-link:hover {
-  color: rgba(255, 255, 255, 0.75);
+  opacity: 1;
   text-decoration: none;
 }
 
+.cd-navbar-link-active {
+  border-right: 3px solid #f8485e;
+}
+
+.cd-navbar-link-icon {
+  vertical-align: middle;
+  margin: 0;
+  color: #f8485e;
+}
+
+.cd-navbar-link-text {
+  vertical-align: middle;
+  display: none;
+  color: #000;
+}
+
 .cd-navbar-footer {
-  padding: 0px;
+  padding: 0px 0px 8px 0px;
   bottom: 0;
   margin: 0;
   position: absolute;
@@ -53,39 +68,45 @@
 }
 
 .content {
-  margin-left: 80px;
-  padding: 25px;
+  margin-left: 72px;
+  padding: 24px;
 }
 
 @media screen and (min-width: 1200px) {
   
   .cd-navbar {
-    width: 200px;
+    width: 240px;
   }
 
   .cd-navbar-brand {
-    margin: 25px;
-    padding-bottom: 20px;
+    padding: 16px 24px;
     font-size: 1.5rem;
   }
 
   .cd-navbar-list {
-    margin: 0px 20px;
     text-align: left;
   }
 
-  .cd-navbar-item {
+  .cd-navbar-link {
     font-size: 1.25rem;
+    padding: 12px 24px;
+  }
+
+  .cd-navbar-link-icon {
+    margin-right: 16px;
+  }
+
+  .cd-navbar-link-text {
+    display: inline;
   }
 
   .cd-navbar-footer {
-    margin: 0px 20px;
     text-align: left;
-    width: auto;
+    padding-bottom: 9px;
   }
 
   .content {
-    margin-left: 200px;
+    margin-left: 240px;
   }
 
 }
